@@ -40,6 +40,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+// get user list & filter by name
 app.get('/users', (req, res) => {
     const name = req.query.name;
     if (name != undefined) {
@@ -52,6 +53,7 @@ app.get('/users', (req, res) => {
     }
 });
 
+// get specific user by Id or 404 error
 app.get('/users/:id', (req, res) => {
     const id = req.params.id;
     let result = findUserById(id);
@@ -62,6 +64,28 @@ app.get('/users/:id', (req, res) => {
         res.send(result);
     }
 });
+
+// create new user
+app.post('/users', (req, res) => {
+    const userToAdd = req.body;
+    addUser(userToAdd);
+    res.status(200).end();
+    // if (error = validateData(userToAdd)) {
+        
+    // }
+    // else {
+    //     res.send(error);
+    // }
+});
+
+// helper functions
+function addUser(user) {
+    users['users_list'].push(user);
+}
+
+function validateData(user) {
+    return true;
+}
 
 const findUserByName = (name) => {
     return users['users_list'].filter( (user) => user['name'] === name);
