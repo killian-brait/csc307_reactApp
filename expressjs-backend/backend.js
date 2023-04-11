@@ -40,13 +40,19 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-// get user list & filter by name
+// get user list & filter by name & filter by job
 app.get('/users', (req, res) => {
     const name = req.query.name;
-    if (name != undefined) {
+    const job = req.query.job;
+    if (name != undefined && job == undefined) {
         let result = findUserByName(name);
         result = {users_list: result};
         res.send(result);
+    }
+    else if (name != undefined && job != undefined) {
+      let result = findUserByNameJob(name, job);
+      result = {users_list: result};
+      res.send(result);
     }
     else {
         res.send(users);
@@ -106,6 +112,13 @@ function validateData(user) {
 
 const findUserByName = (name) => {
     return users['users_list'].filter( (user) => user['name'] === name);
+}
+
+const findUserByNameJob = (name, job) => {
+  return users['users_list'].filter( (user) => {
+    if (user.name === name && user.job === job) return true;
+    else return false;
+  });
 }
 
 function findUserById(id) {
