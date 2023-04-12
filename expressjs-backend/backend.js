@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 8000;
+const {v4: uuidv4 } = require('uuid');
 
 // Static data
 const users = {
@@ -79,15 +80,17 @@ app.get('/users/:id', (req, res) => {
 
 // create new user
 app.post('/users', (req, res) => {
-    const userToAdd = req.body;
-    addUser(userToAdd);
-    res.status(201).end();
-    // if (error = validateData(userToAdd)) {
-        
-    // }
-    // else {
-    //     res.send(error);
-    // }
+  const userToAdd = req.body;
+  userToAdd.id = uuidv4();
+  console.log(userToAdd.id);
+  addUser(userToAdd);
+  res.status(201).end();
+  // if (error = validateData(userToAdd)) {
+      
+  // }
+  // else {
+  //     res.send(error);
+  // }
 });
 
 // delete a user by id
