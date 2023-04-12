@@ -6,13 +6,26 @@ import axios from 'axios';
 
 
 function MyApp() {
+  const usersURL = 'http://localhost:8000/users'
+
   async function fetchAll() {
     try {
-      const response = await axios.get('http://localhost:8000/users');
+      const response = await axios.get(usersURL);
       return response.data.users_list;
     }
     catch (error) {
       // We're not handling errors, just logging them to console
+      console.log(error);
+      return false;
+    }
+  }
+
+  async function makePostCall(person) {
+    try {
+      const response  = await axios.post(usersURL, person);
+      return response;
+    }
+    catch (error) {
       console.log(error);
       return false;
     }
@@ -52,7 +65,10 @@ function MyApp() {
   }
 
   function updateList(person) {
-    setCharacters([...characters, person]);
+    makePostCall(person).then( result => {
+      if (result && result.status === 200)
+        setCharacters([...characters, person]);
+    });
   }
 
   return (
