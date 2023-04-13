@@ -5,22 +5,6 @@ import Form from './Form';
 
 function MyApp() {
   const [characters, setCharacters] = useState([
-    {
-      name: 'Charlie',
-      job: 'Janitor',
-    },
-    {
-      name: 'Dee',
-      job: 'Aspiring Actress',
-    },
-    {
-      name: 'Dennis',
-      job: 'Bartender',
-    },
-    {
-      name: 'Mac',
-      job: 'Bouncer'
-    }
   ]);
 
   function removeOneCharacter (index) {
