@@ -8,6 +8,17 @@ import axios from 'axios';
 function MyApp() {
   const usersURL = 'http://localhost:8000/users'
 
+  const [characters, setCharacters] = useState(
+    []
+  );
+  
+  useEffect(() => {
+    fetchAll().then( result => {
+      if (result)
+        setCharacters(result);
+    });
+  }, [] );
+
   async function fetchAll() {
     try {
       const response = await axios.get(usersURL);
@@ -23,6 +34,10 @@ function MyApp() {
   async function makePostCall(person) {
     try {
       const response  = await axios.post(usersURL, person);
+      if (response.status === 201) {
+        const newPerson = response.data;
+        setCharacters([...characters, newPerson]);
+      }
       return response;
     }
     catch (error) {
@@ -31,43 +46,29 @@ function MyApp() {
     }
   }
 
-  useEffect(() => {
-    fetchAll().then( result => {
-      if (result)
-        setCharacters(result);
-    });
-  }, [] );
-
-  const [characters, setCharacters] = useState([
-    {
-      name: 'Charlie',
-      job: 'Janitor',
-    },
-    // {
-    //   name: 'Dee',
-    //   job: 'Aspiring Actress',
-    // },
-    // {
-    //   name: 'Dennis',
-    //   job: 'Bartender',
-    // },
-    // {
-    //   name: 'Mac',
-    //   job: 'Bouncer'
-    // }
-  ]);
-
-  function removeOneCharacter (index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index
-    });
-    setCharacters(updated);
+  async function removeOneCharacter (index) {
+    try {
+      const response = await axios.delete(usersURL + "/" + characters[index].id);
+      const updated = characters.filter((character, i) => {
+        return i !== index
+      });
+      setCharacters(updated);
+      // return response;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
+   
+    
   }
 
   function updateList(person) {
     makePostCall(person).then( result => {
       if (result && result.status === 201)
-        setCharacters([...characters, person]);
+        setCharacters([...characters, result.data]);
+      else
+        return false;
     });
   }
 
