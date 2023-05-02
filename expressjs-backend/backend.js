@@ -67,14 +67,14 @@ app.post('/users', (req, res) => {
 
 // delete a user by id
 app.delete('/users/:id', (req, res) => {
-  const id = req.params.id;
+  const {id} = req.params;
   let userToRemove = findUserById(id);
-  if (userToRemove === undefined || userToRemove.length === 0)
+  if (userToRemove === undefined || userToRemove.length === 0) {
     res.status(404).send("Resource not found.");
-  else {
-    removeUser(userToRemove);
-    res.status(200).end();
-  }
+  } else {
+      removeUser(userToRemove);
+      res.status(200).end();
+    }
 });
 
 // helper functions
@@ -87,18 +87,17 @@ function removeUser(user) {
   users['users_list'].splice(index, 1);
 }
 
-function validateData(user) {
-    return true;
-}
-
 const findUserByName = (name) => {
     return users['users_list'].filter( (user) => user['name'] === name);
 }
 
 const findUserByNameJob = (name, job) => {
   return users['users_list'].filter( (user) => {
-    if (user.name === name && user.job === job) return true;
-    else return false;
+    if (user.name === name && user.job === job) {
+      return true;
+    } else {
+      return false;
+    }
   });
 }
 

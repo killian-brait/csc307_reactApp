@@ -3,6 +3,13 @@
 Building first web application with react and express (js)
 
 
+### Running Backend Locally
+```npm start``` while in the /expressjs-backend folder
+
+### Running Frontend Locally
+```
+
+
 ### Backend testing with curl:
 curl -X POST
      -H "Content-Type: application/json" 
