@@ -24,6 +24,22 @@ async function getUsers(name, job) {
     return result;
 }
 
+// add a user
+async function addUser(user) {
+    try {
+        const userToAdd = new userModel(user);
+        const savedUser = await userToAdd.save();
+        return savedUser;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+}
+
+
+// --------------------------------------------------
+// ID FUNCTIONS
+// --------------------------------------------------
 // find a user by id
 async function findUserById(id) {
     try {
@@ -34,12 +50,12 @@ async function findUserById(id) {
     }
 }
 
-// add a user
-async function addUser(user) {
+// remove a user (boolean  return)
+// - use findByIdAndRemove(id) to remove a user
+async function removeUserById(id) {
     try {
-        const userToAdd = new userModel(user);
-        const savedUser = await userToAdd.save();
-        return savedUser;
+        await userModel.findByIdAndRemove(id);
+        return true;
     } catch (error) {
         console.log(error);
         return false;
@@ -66,7 +82,10 @@ async function findUserByNameJob(name, job) {
 // --------------------------------------------------
 // EXPORTS
 // --------------------------------------------------
-exports.getUsers = getUsers;
-exports.findUserById = findUserById;
-exports.addUser = addUser;
+module.exports = {
+    getUsers,
+    findUserById,
+    addUser,
+    removeUserById,
+};
 

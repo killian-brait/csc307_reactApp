@@ -48,12 +48,12 @@ function MyApp() {
 
   async function removeOneCharacter (index) {
     try {
-      const response = await axios.delete(usersURL + "/" + characters[index].id);
+      const response = await axios.delete(usersURL + "/" + characters[index]._id);
       const updated = characters.filter((character, i) => {
         return i !== index
       });
       setCharacters(updated);
-      // return response;
+      return response;
     }
     catch (error) {
       console.log(error);
