@@ -73,7 +73,7 @@ app.delete('/users/:id', (req, res) => {
     res.status(404).send("Resource not found.");
   } else {
       removeUser(userToRemove);
-      res.status(200).end();
+      res.status(204).end();
     }
 });
 
